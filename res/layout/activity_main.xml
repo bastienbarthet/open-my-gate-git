@@ -1,14 +1,111 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <TextView
+        android:id="@+id/labelPosition"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world"
-        tools:context=".MainActivity" />
+        android:layout_marginTop="40dp"
+        android:text="Position"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/labelLatitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/labelPosition"
+        android:layout_marginTop="19dp"
+        android:text="Latitude:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/labelLongitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/labelLatitude"
+        android:layout_marginTop="16dp"
+        android:text="Longitude:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textLatitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/labelLatitude"
+        android:layout_alignBottom="@+id/labelLatitude"
+        android:layout_alignLeft="@+id/labelPosition"
+        android:text="lat" />
+
+    <TextView
+        android:id="@+id/textLongitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/labelLongitude"
+        android:layout_alignBottom="@+id/labelLongitude"
+        android:layout_alignLeft="@+id/textLatitude"
+        android:text="long" />
+
+    <TextView
+        android:id="@+id/labelOpenGate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/labelLongitude"
+        android:layout_marginTop="23dp"
+        android:text="OpenGate ??"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textOpenGate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/labelOpenGate"
+        android:layout_alignBottom="@+id/labelOpenGate"
+        android:layout_alignLeft="@+id/textLongitude"
+        android:text="NO" />
+
+    <TextView
+        android:id="@+id/labelDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/labelOpenGate"
+        android:layout_marginTop="16dp"
+        android:text="Distance (m): "
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/labelDistance"
+        android:layout_alignLeft="@+id/textOpenGate"
+        android:text="distance" />
+
+    <TextView
+        android:id="@+id/labelGpsStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/labelDistance"
+        android:layout_marginTop="24dp"
+        android:text="GPS status: "
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textGpsStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/labelGpsStatus"
+        android:layout_alignBottom="@+id/labelGpsStatus"
+        android:layout_alignLeft="@+id/textDistance"
+        android:text="OFF" />
 
 </RelativeLayout>
