@@ -11,6 +11,9 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class OpenMyGate extends Activity implements LocationListener{
@@ -20,11 +23,12 @@ public class OpenMyGate extends Activity implements LocationListener{
 	private TextView openGateField;
 	private TextView distanceField;
 	private TextView gpsStatus;
+	private Button launchButton;
 	private LocationManager locationManager;
 	private String provider;
 	private final double gateLatitude = 43.61206;
 	private final double gateLongitude = 1.39245;
-	private final double radius = 40; //radius detection in meters
+	private final double radius = 50; //radius detection in meters
 	private final String numTel = "+33689838373";
 	  
 	 
@@ -39,6 +43,19 @@ public class OpenMyGate extends Activity implements LocationListener{
         openGateField = (TextView) findViewById(R.id.textOpenGate);
         distanceField = (TextView) findViewById(R.id.textDistance);
         gpsStatus = (TextView) findViewById(R.id.textGpsStatus);
+        launchButton = (Button) findViewById(R.id.button1);
+        
+        launchButton.setOnClickListener( 
+        		
+        	new OnClickListener(){
+
+	        	 @Override
+	        	 public void onClick(View actuelView) {
+	        		 startService(new Intent(OpenMyGate.this, OpenMyGateService.class));
+	        	 }
+	        	 
+        	}
+        );
         
         // Get the location manager
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -59,7 +76,6 @@ public class OpenMyGate extends Activity implements LocationListener{
           gpsStatus.setText("OFF");
         }
         
-//        this.trackToOpenGate();
     }
 
     @Override
