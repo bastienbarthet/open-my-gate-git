@@ -33,36 +33,44 @@ public class OpenMyGateService extends Service {
 			
 			@Override
 			public void onLocationChanged(Location location) {
-				 
-				this.latitude = location.getLatitude();
-				this.longitude = location.getLongitude();
 				
-				if (isNearToGate(longitude, latitude)) {
-					if (!this.gateOpened) {
-						this.gateOpened = true;;
-						openGate();
+				final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
+				this.gpsStatus = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+				
+				if (this.gpsStatus) {
+					this.latitude = location.getLatitude();
+					this.longitude = location.getLongitude();
+					
+					if (isNearToGate(longitude, latitude)) {
+						if (!this.gateOpened) {
+							this.gateOpened = true;;
+							openGate();
+						}
+					} else {
+						this.gateOpened = false;
 					}
+					
+					
+					Toast.makeText(getBaseContext(),
+							"Position : -latitude: " + this.latitude + " // longitude : " + this.longitude + "\n"
+									+ "Distance: " + this.distance + "\n"
+									+ "Portail ouvert ? " + this.gateOpened + "\n"
+									+ "Status du GPS: " + this.gpsStatus, 
+									Toast.LENGTH_LONG).show();
 				} else {
-					this.gateOpened = false;
+					Toast.makeText(getBaseContext(), "GPS OFF, veuillez démarrer le GPS", Toast.LENGTH_LONG).show();
+
 				}
-				
-				
-			 	Toast.makeText(getBaseContext(),
-			 			"Position : " + this.latitude + " " + this.longitude + "\n"
-			 			+ "Distance : " + this.distance + "\n"
-			 			+ "Gate Opened ? : " + this.gateOpened + "\n"
-			 			+ "GPS Status : " + this.gpsStatus, 
-			 			Toast.LENGTH_LONG).show();
 			}
 	
 			@Override
 			public void onProviderDisabled(String provider) {
-				this.gpsStatus = false;
+				Toast.makeText(getBaseContext(), "GPS OFF", Toast.LENGTH_LONG).show();
 			}
 	
 			@Override
 			public void onProviderEnabled(String provider) {
-				this.gpsStatus = true;
+				Toast.makeText(getBaseContext(), "GPS ON", Toast.LENGTH_LONG).show();
 			}
 	
 			@Override
@@ -106,9 +114,13 @@ public class OpenMyGateService extends Service {
 	@Override
 	public void onCreate() {
 		locationMgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		locationMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, onLocationChange);
-		Toast.makeText(getBaseContext(), "Service OpenMyGate Demarré", Toast.LENGTH_LONG).show();
-		super.onCreate();
+		if (locationMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			locationMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, onLocationChange);
+			Toast.makeText(getBaseContext(), "Service OpenMyGate Demarré", Toast.LENGTH_LONG).show();
+			super.onCreate();
+		} else {
+			Toast.makeText(getBaseContext(), "GPS OFF, veuillez démarrer le GPS", Toast.LENGTH_LONG).show();
+		}
 	}
 	
 	@Override

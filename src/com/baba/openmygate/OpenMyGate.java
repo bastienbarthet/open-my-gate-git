@@ -5,12 +5,14 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class OpenMyGate extends Activity {
 
@@ -59,20 +61,26 @@ public class OpenMyGate extends Activity {
     	
     };
     
-    private boolean isMyServiceRunning() {
+    private void isMyServiceRunning() {
+    	
+    	this.launchButton.setEnabled(true);
+    	this.stopButton.setEnabled(false);
+    	this.serviceStatus.setText("OFF");
+    	
+    	final LocationManager locManag = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
+		if (!locManag.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			Toast.makeText(getBaseContext(), "GPS OFF, veuillez démarrer le GPS", Toast.LENGTH_LONG).show();
+		}
+    	
+		
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (OpenMyGateService.class.getName().equals(service.service.getClassName())) {
             	this.launchButton.setEnabled(false);
             	this.stopButton.setEnabled(true);
             	this.serviceStatus.setText("ON");
-                return true;
             }
         }
-        this.launchButton.setEnabled(true);
-    	this.stopButton.setEnabled(false);
-    	this.serviceStatus.setText("OFF");
-        return false;
     }
 
     @Override
