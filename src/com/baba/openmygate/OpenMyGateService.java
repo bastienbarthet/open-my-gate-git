@@ -21,9 +21,9 @@ public class OpenMyGateService extends Service {
 		
 		new LocationListener() {
 		
-			private final double gateLatitude = 43.61206;
-			private final double gateLongitude = 1.39245;
-			private final double radius = 50; //radius detection in meters
+			private final double gateLatitude = 43.61278002558139;
+			private final double gateLongitude = 1.392238611074346;
+			private final double radius = 111; //radius detection in meters
 			private final String numTel = "+33689838373";
 			private double distance;
 			private boolean gateOpened;
@@ -44,6 +44,12 @@ public class OpenMyGateService extends Service {
 					if (isNearToGate(longitude, latitude)) {
 						if (!this.gateOpened) {
 							this.gateOpened = true;;
+							Toast.makeText(getBaseContext(),
+									"Position : -latitude: " + this.latitude + " // longitude : " + this.longitude + "\n"
+											+ "Distance: " + this.distance + "\n"
+											+ "Portail ouvert ? " + this.gateOpened + "\n"
+											+ "Status du GPS: " + this.gpsStatus, 
+											Toast.LENGTH_LONG).show();
 							openGate();
 						}
 					} else {
@@ -51,12 +57,6 @@ public class OpenMyGateService extends Service {
 					}
 					
 					
-					Toast.makeText(getBaseContext(),
-							"Position : -latitude: " + this.latitude + " // longitude : " + this.longitude + "\n"
-									+ "Distance: " + this.distance + "\n"
-									+ "Portail ouvert ? " + this.gateOpened + "\n"
-									+ "Status du GPS: " + this.gpsStatus, 
-									Toast.LENGTH_LONG).show();
 				} else {
 					Toast.makeText(getBaseContext(), "GPS OFF, veuillez démarrer le GPS", Toast.LENGTH_LONG).show();
 
