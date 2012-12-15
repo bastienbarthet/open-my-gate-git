@@ -3,6 +3,7 @@ package com.baba.openmygate;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
@@ -36,7 +37,7 @@ public class OpenMyGate extends Activity {
         	new OnClickListener(){
 	        	 @Override
 	        	 public void onClick(View actuelView) {
-	        		 startService(new Intent(OpenMyGate.this, OpenMyGateService.class));
+	        		 startService(new Intent(OpenMyGate.this, IsBluetoothHeadsetConnectedService.class));
 	        		 isMyServiceRunning();
 	        	 }
         	});
@@ -45,7 +46,7 @@ public class OpenMyGate extends Activity {
         	new OnClickListener(){
 	        	 @Override
 	        	 public void onClick(View actuelView) {
-	        		 stopService(new Intent(OpenMyGate.this, OpenMyGateService.class));
+	        		 stopService(new Intent(OpenMyGate.this, IsBluetoothHeadsetConnectedService.class));
 	        		 isMyServiceRunning();
 	        	 }
         	});
@@ -69,13 +70,18 @@ public class OpenMyGate extends Activity {
     	
     	final LocationManager locManag = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
 		if (!locManag.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			Toast.makeText(getBaseContext(), "GPS OFF, veuillez démarrer le GPS", Toast.LENGTH_LONG).show();
+			Toast.makeText(getBaseContext(), "GPS OFF, veuillez activer le GPS", Toast.LENGTH_LONG).show();
+		}
+		final BluetoothAdapter blueAdapter = BluetoothAdapter.getDefaultAdapter();
+		if (blueAdapter != null && !blueAdapter.isEnabled()) {
+			Toast.makeText(getBaseContext(), "Bluetooth OFF, veuillez activer le Bluetooth", Toast.LENGTH_LONG).show();
 		}
     	
 		
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (OpenMyGateService.class.getName().equals(service.service.getClassName())) {
+            final boolean isBluetoothOnServiceRunning = IsBluetoothHeadsetConnectedService.class.getName().equals(service.service.getClassName());
+            if (isBluetoothOnServiceRunning) {
             	this.launchButton.setEnabled(false);
             	this.stopButton.setEnabled(true);
             	this.serviceStatus.setText("ON");
