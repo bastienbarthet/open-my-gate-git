@@ -11,14 +11,15 @@ import android.widget.Toast;
 
 public class IsBluetoothHeadsetConnectedService extends Service {
 	
-	private static final long ONE_MINUTE = 60*1000;
+	private static final long checkPeriod = 15*1000;
 	private BluetoothAdapter bluetoothAdapter;
 	private Handler mHandler = new Handler();
+	final String numTel = "+33689838373";
 	
 	private Runnable periodicTask = new Runnable() {
         public void run() {
             IsBluetoothHeadsetConnectedService.this.runTrackingServiceIfHeadsetConnected();
-            mHandler.postDelayed(periodicTask, ONE_MINUTE);
+            mHandler.postDelayed(periodicTask, checkPeriod);
         }
     };
     
@@ -45,7 +46,7 @@ public class IsBluetoothHeadsetConnectedService extends Service {
 		if (this.isGpsOn()) {
 			this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 			if (this.isBluetoothOn()) {
-				 this.mHandler.postDelayed(periodicTask, ONE_MINUTE);
+				 this.mHandler.postDelayed(periodicTask, checkPeriod);
 				super.onCreate();
 				Toast.makeText(getBaseContext(), "Service IsBluetoothOn :  Demarré", Toast.LENGTH_LONG).show();
 			} else {

@@ -23,7 +23,7 @@ public class TrackMeService extends Service {
 		
 			private final double gateLatitude = 43.61278002558139;
 			private final double gateLongitude = 1.392238611074346;
-			private final double radius = 111; //radius detection in meters
+			private final double radius = 125; //radius detection in meters
 			private final String numTel = "+33689838373";
 			private double distance;
 			private boolean gateOpened;
