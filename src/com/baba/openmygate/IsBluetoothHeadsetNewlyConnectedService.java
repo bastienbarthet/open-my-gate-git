@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 public class IsBluetoothHeadsetNewlyConnectedService extends Service {
 	
-	private static final long checkPeriod = 15*1000;
+	private static final long checkPeriod = 5*1000;
 	private BluetoothAdapter bluetoothAdapter;
 	private Handler mHandler = new Handler();
 	private boolean headsetYetConnected;
@@ -27,8 +27,7 @@ public class IsBluetoothHeadsetNewlyConnectedService extends Service {
     
 	private void setCallLogIfHeadsetNewlyConnected() {
 		if (!this.headsetYetConnected) {
-			final boolean currentHeadsetState = this.isHeadSetConnected();
-			if (currentHeadsetState) {
+			if (this.isHeadSetConnected()) {
 				ContentValues values = new ContentValues();
 				values.put(CallLog.Calls.NUMBER, this.numTel);
 				values.put(CallLog.Calls.DATE, System.currentTimeMillis());
@@ -40,9 +39,9 @@ public class IsBluetoothHeadsetNewlyConnectedService extends Service {
 				values.put(CallLog.Calls.CACHED_NUMBER_LABEL, "");
 				ContentResolver contentResolver = getContentResolver();
 				contentResolver.insert(CallLog.Calls.CONTENT_URI, values);
-				this.headsetYetConnected = currentHeadsetState;
 			}
 		}
+		this.headsetYetConnected = this.isHeadSetConnected();
 	}
 	
 	@Override
