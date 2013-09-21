@@ -1,22 +1,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.baba.openmygate"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="2.0" >
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="15" />
+        android:targetSdkVersion="14" />
     
-  	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 	<uses-permission android:name="android.permission.CALL_PHONE"/>
 	<uses-permission android:name="android.permission.BLUETOOTH"/>
 	<uses-permission android:name="android.permission.READ_CONTACTS"/>
 	<uses-permission android:name="android.permission.WRITE_CONTACTS"/>
-	
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_launcher2"
         android:label="OpenMyGate"
         android:theme="@style/AppTheme" >
         <activity
@@ -24,14 +22,19 @@
             android:label="OpenMyGate" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name="BluetoothHeadsetConnectionService"/>
         
-        <service android:name="com.baba.openmygate.IsBluetoothHeadsetConnectedService"/>
-         <service android:name="com.baba.openmygate.IsBluetoothHeadsetNewlyConnectedService"/>
-        <service android:name="com.baba.openmygate.TrackMeService"/>
+       	<receiver android:name=".MyReceiver" android:enabled="true" android:exported="false">
+        	<intent-filter>
+            	<action android:name="android.intent.action.BOOT_COMPLETED"/>
+        	</intent-filter>
+   		</receiver>
+   
+        
         
     </application>
 

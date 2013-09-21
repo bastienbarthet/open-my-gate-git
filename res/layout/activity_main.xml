@@ -1,45 +1,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
+    android:background="@color/dark"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
-    <ToggleButton
-        android:id="@+id/toggleButtonTracking"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/labelServiceStatus"
-        android:layout_marginLeft="23dp"
-        android:layout_toRightOf="@+id/labelServiceStatus"
-        android:text="ToggleButtonT" />
-
-    <ToggleButton
-        android:id="@+id/toggleButtonHeadset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/labelBluetoothServiceStatus"
-        android:layout_alignLeft="@+id/toggleButtonTracking"
-        android:text="ToggleButtonB" />
 
     <TextView
         android:id="@+id/labelBluetoothServiceStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/labelServiceStatus"
-        android:layout_below="@+id/labelServiceStatus"
-        android:layout_marginTop="114dp"
-        android:text="headset connexion"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/toggleButtonHeadset"
+        android:layout_marginLeft="50dp"
+        android:text="@string/service_state"
+        android:textColor="@android:color/white"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:id="@+id/labelServiceStatus"
+    <ToggleButton
+        android:id="@+id/toggleButtonHeadset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="34dp"
-        android:layout_marginTop="73dp"
-        android:text="with GPS Tracking"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="43dp"
+        android:layout_toRightOf="@+id/labelBluetoothServiceStatus"
+        android:text="@string/togglebuttonb" />
 
 </RelativeLayout>

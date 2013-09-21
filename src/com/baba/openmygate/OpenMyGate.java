@@ -14,7 +14,6 @@ import android.widget.ToggleButton;
 public class OpenMyGate extends Activity {
 
 	private ToggleButton toggleButtonHeadset;
-	private ToggleButton toggleButtonTracking;
 	 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,23 +22,7 @@ public class OpenMyGate extends Activity {
         
         setContentView(R.layout.activity_main);
   
-        toggleButtonTracking = (ToggleButton) findViewById(R.id.toggleButtonTracking);
         toggleButtonHeadset =  (ToggleButton) findViewById(R.id.toggleButtonHeadset);
-        
-        toggleButtonTracking.setOnClickListener(
-        		
-        		new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						if (toggleButtonTracking.isChecked()) {
-							startService(new Intent(OpenMyGate.this, IsBluetoothHeadsetConnectedService.class));
-						} else {
-							stopService(new Intent(OpenMyGate.this, IsBluetoothHeadsetConnectedService.class));
-						}
-						
-					}
-        		});
         
         toggleButtonHeadset.setOnClickListener(
         		
@@ -48,33 +31,32 @@ public class OpenMyGate extends Activity {
 					@Override
 					public void onClick(View v) {
 						if (toggleButtonHeadset.isChecked()) {
-							startService(new Intent(OpenMyGate.this, IsBluetoothHeadsetNewlyConnectedService.class));
+							startService(new Intent(OpenMyGate.this, BluetoothHeadsetConnectionService.class));
 						} else {
-							stopService(new Intent(OpenMyGate.this, IsBluetoothHeadsetNewlyConnectedService.class));
+							stopService(new Intent(OpenMyGate.this, BluetoothHeadsetConnectionService.class));
 						}
 						
 					}
         		});
         
-       //this.areServicesRunning();
+       this.areServicesRunning();
         
     }
     
     @Override
     protected void onResume() {
     	super.onResume();
-    	//this.areServicesRunning();
-    	
+    	this.areServicesRunning();
     };
     
     private void areServicesRunning() {
     	
+    	this.toggleButtonHeadset.setChecked(false);
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            final boolean isTrackingServiceRunning = IsBluetoothHeadsetConnectedService.class.getName().equals(service.service.getClassName());
-        	this.toggleButtonTracking.setChecked(isTrackingServiceRunning);
-            final boolean isHeadsetServiceRunning = IsBluetoothHeadsetNewlyConnectedService.class.getName().equals(service.service.getClassName());
-        	this.toggleButtonHeadset.setChecked(isHeadsetServiceRunning);
+            if (BluetoothHeadsetConnectionService.class.getName().equals(service.service.getClassName())) {
+            	this.toggleButtonHeadset.setChecked(true);
+            }
         }
     }
 
